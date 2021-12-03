@@ -5,7 +5,7 @@ require 'minitest/autorun'
 # Ensure that solution for the day works with examples
 class TestDay03 < Minitest::Test
   def input
-    <<-INPUT
+    <<~INPUT
       00100
       11110
       10110
@@ -30,6 +30,6 @@ class TestDay03 < Minitest::Test
   end
 
   def test_part2_result
-    assert_equal 900, @resolver.part2
+    assert_equal 230, @resolver.part2
   end
 end
