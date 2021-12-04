@@ -56,12 +56,12 @@ module Bingo
     end
 
     def completed?
-      rows = @lines.dup
+      columns = @lines.dup
 
       by_line = @lines.any? { |line| line.all? { |cell| cell[:checked] } }
-      by_row = rows.transpose.any? { |line| line.all? { |cell| cell[:checked] } }
+      by_column = columns.transpose.any? { |line| line.all? { |cell| cell[:checked] } }
 
-      by_line || by_row
+      by_line || by_column
     end
 
     def process_number(number)
