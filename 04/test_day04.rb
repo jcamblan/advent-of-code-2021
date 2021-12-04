@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-
 # Ensure that solution for the day works with examples
 class TestDay04 < Minitest::Test
   def input
@@ -37,6 +36,6 @@ class TestDay04 < Minitest::Test
   end
 
   def test_part2_result
-    assert_equal 230, @resolver.part2
+    assert_equal 1924, @resolver.part2
   end
 end
