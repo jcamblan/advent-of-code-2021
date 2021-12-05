@@ -14,7 +14,7 @@ class Day05
   end
 
   def part2
-    draw_lines(with_diagonals: true)
+    draw_lines
   end
 
   private
