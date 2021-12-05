@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 # Day 4: Giant Squid
 class Day04
   def initialize(input = nil)
