@@ -18,6 +18,6 @@ class TestDay06 < Minitest::Test
   end
 
   def test_part2_result
-    assert_equal 123, @resolver.part2
+    assert_equal 26_984_457_539, @resolver.part2
   end
 end
