@@ -3,6 +3,7 @@
 Dir['./*/*.rb'].sort.each { |f| require f }
 require 'terminal-table'
 require 'minitest/autorun'
+require 'pry'
 
 # Display the results for each completed day
 class AdventResolver
