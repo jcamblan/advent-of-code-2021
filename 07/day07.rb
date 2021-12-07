@@ -11,5 +11,12 @@ class Day07
     Range.new(@positions.min, @positions.max).map { |goal| @positions.map {(_1 - goal).abs }.sum }.min
   end
 
-  def part2; end
+  def part2
+    Range.new(@positions.min, @positions.max).map do |goal|
+      @positions.map do |pos|
+        abs = (pos - goal).abs
+        (abs / 2.0 * (1 + abs)).to_i
+      end.sum
+    end.min
+  end
 end
