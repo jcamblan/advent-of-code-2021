@@ -54,28 +54,25 @@ class Day08
   end
 
   def fill_values(signal_pattern)
-    numbers = {}
-    values = {}
+    ez_numbers = signal_pattern.filter_map do |digits|
+      [EZ_SEGMENTS[digits.length], digits.chars] if EZ_SEGMENTS[digits.length]
+    end.to_h
 
-    signal_pattern.each do |digits|
-      numbers[EZ_SEGMENTS[digits.length]] = digits.chars if EZ_SEGMENTS[digits.length]
+    @values = {
+      'a' => (ez_numbers[7] - ez_numbers[1]).first,
+      'c' => ez_numbers[1].find { signal_pattern.join.count(_1) == 8 },
+      'f' => ez_numbers[1].find { signal_pattern.join.count(_1) == 9 },
+      'b' => (ez_numbers[4] - ez_numbers[1]).find { signal_pattern.join.count(_1) == 6 },
+      'd' => (ez_numbers[4] - ez_numbers[1]).find { signal_pattern.join.count(_1) == 7 }
+    }.tap do |values|
+      abcdf = values.values.flatten
+      nine = signal_pattern.find do |n|
+        abcdf.all? { n.chars.include?(_1) } && n.length == 6
+      end
+
+      values['g'] = (nine.chars - abcdf).first
+      values['e'] = (%w[a b c d e f g] - values.values.flatten).last
     end
-
-    values['a'] = (numbers[7] - numbers[1]).first
-    values['c'] = numbers[1].find { signal_pattern.join.count(_1) == 8 }
-    values['f'] = numbers[1].find { signal_pattern.join.count(_1) == 9 }
-    values['b'] = (numbers[4] - numbers[1]).find { signal_pattern.join.count(_1) == 6 }
-    values['d'] = (numbers[4] - numbers[1]).find { signal_pattern.join.count(_1) == 7 }
-
-    abcdf = values.select { |k, _| %w[a b c d f].include?(k) }.values.flatten
-    nine = signal_pattern.find do |n|
-      abcdf.all? { n.chars.include?(_1) } && n.length == 6
-    end
-
-    values['g'] = (nine.chars - abcdf).first
-    values['e'] = (%w[a b c d e f g] - values.values.flatten).last
-
-    @values = values
   end
 
   def translate_output(output)
