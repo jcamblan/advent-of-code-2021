@@ -2,7 +2,7 @@
 
 require 'minitest/autorun'
 # Ensure that solution for the day works with examples
-class TestDay06 < Minitest::Test
+class TestDay07 < Minitest::Test
   def input
     <<~INPUT
       16,1,2,0,4,2,7,1,2,14
