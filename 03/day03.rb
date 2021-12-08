@@ -35,23 +35,19 @@ class Day03
       break if numbers.size == 1
     end
 
-    binary_to_integer(numbers.first.join)
+    numbers.first.join.to_i(2)
   end
 
   def gamma_rate
-    binary_to_integer(
-      @matrix.map do |row|
-        row.max_by { |bit| row.count(bit) }
-      end.join
-    )
+    @matrix.map do |row|
+      row.max_by { |bit| row.count(bit) }
+    end.join.to_i(2)
   end
 
   def espilon_rate
-    binary_to_integer(
-      @matrix.map do |row|
-        row.min_by { |bit| row.count(bit) }
-      end.join
-    )
+    @matrix.map do |row|
+      row.min_by { |bit| row.count(bit) }
+    end.join.to_i(2)
   end
 
   def ogr_bit_criteria(array)
@@ -60,11 +56,5 @@ class Day03
 
   def co2sr_bit_criteria(array)
     array.count('0') <= array.size.to_f / 2 ? '0' : '1'
-  end
-
-  def binary_to_integer(binary)
-    binary.reverse.chars.filter_map.with_index do |bit, i|
-      2**i if bit.to_i.positive?
-    end.sum
   end
 end

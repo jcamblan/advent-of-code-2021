@@ -27,6 +27,6 @@ class TestDay08 < Minitest::Test
   end
 
   def test_part2_result
-    assert_equal 168, @resolver.part2
+    assert_equal 61_229, @resolver.part2
   end
 end
