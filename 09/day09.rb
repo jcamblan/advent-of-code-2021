@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Day 8: Seven Segment Search
+# Day 9: Smoke Basin
 class Day09
   def initialize(input = nil)
     @input = input || File.open('./09/input.txt').read
