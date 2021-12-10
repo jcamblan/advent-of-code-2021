@@ -19,18 +19,18 @@ class Day03
   private
 
   def oxygen_generator_rating
-    rating(:ogr_bit_criteria)
+    rating(ogr_bit_criteria)
   end
 
   def co2_scrubber_rating
-    rating(:co2sr_bit_criteria)
+    rating(co2sr_bit_criteria)
   end
 
   def rating(criteria)
     numbers = @numbers.dup
     @numbers.each_with_index do |_, i|
       numbers = numbers.select do |number|
-        number[i] == method(criteria).call(numbers.transpose[i])
+        number[i] == criteria.call(numbers.transpose[i])
       end
       break if numbers.size == 1
     end
@@ -50,11 +50,11 @@ class Day03
     end.join.to_i(2)
   end
 
-  def ogr_bit_criteria(array)
-    array.count('1') >= array.size.to_f / 2 ? '1' : '0'
+  def ogr_bit_criteria
+    proc { |array| array.count('1') >= array.size.to_f / 2 ? '1' : '0' }
   end
 
-  def co2sr_bit_criteria(array)
-    array.count('0') <= array.size.to_f / 2 ? '0' : '1'
+  def co2sr_bit_criteria
+    proc { |array| array.count('0') <= array.size.to_f / 2 ? '0' : '1' }
   end
 end
