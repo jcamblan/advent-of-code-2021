@@ -7,6 +7,7 @@ class Day11
     @octopuses = raw.lines(chomp: true).map { _1.chars.map(&:to_i)}
     @flashes = 0
     @simultaneous_flashes = false
+    @step = 0
   end
 
   NEIGHBOURS = ([-1, 0, 1].product([-1, 0, 1]) - [[0, 0]]).freeze
@@ -17,13 +18,9 @@ class Day11
   end
 
   def part2
-    count = 0
-    until @simultaneous_flashes
-      process_step!
-      count += 1
-    end
+    process_step! until @simultaneous_flashes
 
-    count
+    @step
   end
 
   def process_step!
@@ -36,6 +33,8 @@ class Day11
     end
 
     flush_flashed!
+
+    @step += 1
   end
 
   def flash!(*coords)
