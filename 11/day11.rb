@@ -4,23 +4,34 @@
 class Day11
   def initialize(input = nil)
     raw = input || File.open('./11/input.txt').read
-    @matrix = raw.lines(chomp: true).map { _1.chars.map(&:to_i)}
+    @octopuses = raw.lines(chomp: true).map { _1.chars.map(&:to_i)}
     @flashes = 0
+    @simultaneous_flashes = false
   end
+
+  NEIGHBOURS = ([-1, 0, 1].product([-1, 0, 1]) - [[0, 0]]).freeze
 
   def part1
     100.times { process_step! }
     @flashes
   end
 
-  def part2; end
+  def part2
+    count = 0
+    until @simultaneous_flashes
+      process_step!
+      count += 1
+    end
+
+    count
+  end
 
   def process_step!
-    @matrix.each.with_index do |line, y|
+    @octopuses.each.with_index do |line, y|
       line.each.with_index do |_, x|
-        @matrix[y][x] += 1
+        @octopuses[y][x] += 1
 
-        flash!(y, x) if @matrix[y][x] == 10
+        flash!(y, x) if @octopuses[y][x] == 10
       end
     end
 
@@ -28,30 +39,30 @@ class Day11
   end
 
   def flash!(*coords)
-    borders(*coords).each do |y, x|
-      @matrix[y][x] += 1
+    nearby_octopuses(*coords).each do |y, x|
+      @octopuses[y][x] += 1
 
-      flash!(y, x) if @matrix[y][x] == 10
+      flash!(y, x) if @octopuses[y][x] == 10
     end
 
     @flashes += 1
   end
 
   def flush_flashed!
-    @matrix.each.with_index do |line, y|
+    @octopuses.each.with_index do |line, y|
       line.each.with_index do |_octopus, x|
-        @matrix[y][x] = 0 if @matrix[y][x] >= 10
+        @octopuses[y][x] = 0 if @octopuses[y][x] >= 10
       end
     end
+
+    @simultaneous_flashes = @octopuses.flatten.all?(&:zero?)
   end
 
-  def borders(y_pos, x_pos)
-    [
-      [-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]
-    ].filter_map do |v, h|
+  def nearby_octopuses(y_pos, x_pos)
+    NEIGHBOURS.filter_map do |v, h|
       ny = y_pos + v
       nx = x_pos + h
-      [ny, nx] if @matrix.dig(ny, nx) && !nx.negative? && !ny.negative?
+      [ny, nx] if @octopuses.dig(ny, nx) && !nx.negative? && !ny.negative?
     end
   end
 end
