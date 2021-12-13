@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Day 11: Dumbo Octopus
+# Day 12: Passage Pathing
 class Day12
   def initialize(input = nil)
     raw = input || File.open('./12/input.txt').read
