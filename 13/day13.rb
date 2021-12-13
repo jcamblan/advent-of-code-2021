@@ -34,12 +34,12 @@ class Day13
   end
 
   def fold(instruction)
-    case instruction[0]
-    when 'y'
-      @paper = vertical_fold(@paper, instruction[1].to_i)
-    when 'x'
-      @paper = horizontal_fold(@paper, instruction[1].to_i)
-    end
+    @paper = case instruction[0]
+             when 'y'
+               vertical_fold(@paper, instruction[1].to_i)
+             when 'x'
+               horizontal_fold(@paper, instruction[1].to_i)
+             end
   end
 
   def vertical_fold(paper, index)
@@ -48,8 +48,8 @@ class Day13
     part1.zip(part2.reverse).map { |a, b| a.zip(b).map(&:sum) }
   end
 
-  def horizontal_fold(_paper, index)
-    vertical_fold(@paper.transpose, index).transpose
+  def horizontal_fold(paper, index)
+    vertical_fold(paper.transpose, index).transpose
   end
 
   def fill_paper!(dot)
