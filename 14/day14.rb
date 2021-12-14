@@ -8,25 +8,37 @@ class Day14
     @pair_insertions = pair_insertions.lines(chomp: true)
                                       .map { _1.split(' -> ') }.to_h
     @template = template.chars
+    @pairs = Hash.new(0)
+    @letters = Hash.new(0).merge(@template.tally)
+    @template.each_cons(2) do |chars|
+      @pairs[chars] += 1
+    end
   end
 
   def part1
     10.times { pair_insertions! }
 
-    occurences = @template.uniq.map { @template.count(_1) }.sort
-    occurences[-1] - occurences[0]
+    @letters.values.max - @letters.values.min
   end
 
-  def part2; end
+  def part2
+    40.times { pair_insertions! }
+
+    @letters.values.max - @letters.values.min
+  end
 
   def pair_insertions!
-    new_template = []
-    @template.each_cons(2).with_index(1) do |chars, _index|
-      new_template << chars[0]
+    new_hash = @pairs.dup
+    @pairs.each_key do |chars|
       letter = @pair_insertions[chars.join]
-      new_template << letter if letter
+      next unless letter
+
+      new_hash[chars] -= @pairs[chars]
+      new_hash[[chars[0], letter]] += @pairs[chars]
+      new_hash[[letter, chars[1]]] += @pairs[chars]
+      @letters[letter] += @pairs[chars]
     end
-    new_template << @template[-1]
-    @template = new_template
+
+    @pairs = new_hash
   end
 end
