@@ -16,29 +16,45 @@ class Day14
   end
 
   def part1
-    10.times { pair_insertions! }
-
-    @letters.values.max - @letters.values.min
+    result_after(10)
   end
 
   def part2
-    40.times { pair_insertions! }
+    result_after(40)
+  end
 
+  private
+
+  def result_after(times)
+    times.times { @pairs = process_step }
     @letters.values.max - @letters.values.min
   end
 
-  def pair_insertions!
-    new_hash = @pairs.dup
-    @pairs.each_key do |chars|
-      letter = @pair_insertions[chars.join]
-      next unless letter
-
-      new_hash[chars] -= @pairs[chars]
-      new_hash[[chars[0], letter]] += @pairs[chars]
-      new_hash[[letter, chars[1]]] += @pairs[chars]
-      @letters[letter] += @pairs[chars]
+  def process_step
+    @pairs.dup.tap do |new_hash|
+      @pairs.each_key do |splitted_pair|
+        remove_splitted_pairs(splitted_pair, new_hash)
+        add_new_pairs(splitted_pair, new_hash)
+        increase_inserted_letter_count(splitted_pair)
+      end
     end
+  end
 
-    @pairs = new_hash
+  def add_new_pairs(splitted_pair, hash)
+    letter = inserted_letter(splitted_pair)
+    hash[[splitted_pair[0], letter]] += @pairs[splitted_pair]
+    hash[[letter, splitted_pair[1]]] += @pairs[splitted_pair]
+  end
+
+  def remove_splitted_pairs(splitted_pair, hash)
+    hash[splitted_pair] -= @pairs[splitted_pair]
+  end
+
+  def increase_inserted_letter_count(splitted_pair)
+    @letters[inserted_letter(splitted_pair)] += @pairs[splitted_pair]
+  end
+
+  def inserted_letter(splitted_pair)
+    @pair_insertions[splitted_pair.join]
   end
 end
